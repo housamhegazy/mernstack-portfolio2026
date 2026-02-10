@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const app = express();
 const port = process.env.PORT || 3000;
 
+const userRoute = require("./routes/userRoute")
 // ********************** Middleware **********************
 app.use(cookieParser()); // خاصه بقراءة الكوكيز من الطلبات ولازم تتواجد قبل اي روت
 app.use(
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.get("/api/user",userRoute)
 const mongoURI = process.env.MONGODB_URI;
 
 mongoose
