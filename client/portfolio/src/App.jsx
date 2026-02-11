@@ -2,7 +2,8 @@ import { Navigate, RouterProvider,createBrowserRouter } from "react-router";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/home/home";
 import SignIn from "./pages/login/login";
-import Root from "./root";
+import Root from "./Root";
+import AdminDashboard from "./pages/dashboard/adminDashboard";
 
 
 function App() {
@@ -23,6 +24,10 @@ function App() {
         {
           path: "/signin",
           element:  <SignIn />,
+        },
+        {
+          path:"/admindashboard",
+          element:<AdminDashboard/>
         },
         {
           path: "*",

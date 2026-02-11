@@ -9,15 +9,15 @@ const port = process.env.PORT || 3000;
 
 const userRoute = require("./routes/userRoute")
 // ********************** Middleware **********************
-// app.use(cookieParser()); // خاصه بقراءة الكوكيز من الطلبات ولازم تتواجد قبل اي روت
+
+app.use(express.json()); // عشان السيرفر يفهم الـ JSON اللي جاي من الفرونت
+app.use(cookieParser()); // ضروري لقراءة التوكن من الكوكيز
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
   }),
 ); // تفعيل CORS للسماح لـ frontend (الذي يعمل على منفذ مختلف) بالاتصال بـ backend
-app.use(express.json()); // عشان السيرفر يفهم الـ JSON اللي جاي من الفرونت
-
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

@@ -4,7 +4,7 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   isLoadingAuth: true,
-  error: null, // 🧠 نضيف ده
+  error: null, 
 };
 
 const authSlice = createSlice({
@@ -52,7 +52,8 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.user = null;
         state.isLoadingAuth = false;
-        state.error = action.error?.message || "حدث خطأ أثناء جلب البيانات";
+        // @ts-ignore
+        state.error = action.error?.data?.message || "حدث خطأ أثناء جلب البيانات";
       },
     );
     //signin
@@ -63,27 +64,12 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.isLoadingAuth = false;
       },
-    );
-    //signup
-    builder
-      .addMatcher(userApi.endpoints.signup.matchFulfilled, (state, action) => {
-        state.isAuthenticated = true;
-        state.user = action.payload;
-        state.isLoadingAuth = false;
-      })
-
+    )
       //logout
       .addMatcher(userApi.endpoints.signOut.matchFulfilled, (state) => {
         state.isAuthenticated = false;
         state.user = null;
       });
-    //edit profile
-    builder.addMatcher(
-      userApi.endpoints.editProfile.matchFulfilled,
-      (state, action) => {
-        state.user = action.payload.user;
-      },
-    );
 
   },
 });

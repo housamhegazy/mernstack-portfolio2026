@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
-
+import { useSigninMutation } from '../../Redux/UserApi';
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
+  const [signin,{isLoading}] = useSigninMutation()
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // هنا هتحط كود الـ Fetch للباك إند اللي عملناه
-    console.log("تسجيل دخول يا سمسم...", { email, password });
-  };
+    console.log(email,password);
+    try{
+      await signin({email,password}).unwrap();
+      navigate("/admindashboard")
+    }catch(error){
+      console.log(error);
+    }
 
+  };
   return (
     <div className="signin-container d-flex align-items-center justify-content-center">
       <div className="signin-card p-4 shadow-lg">
@@ -25,6 +30,7 @@ const SignIn = () => {
             <label className="form-label">email</label>
             <input 
               type="email" 
+              name='email'
               className="form-control custom-input" 
               placeholder="admin@example.com"
               value={email}
@@ -34,7 +40,8 @@ const SignIn = () => {
           </div>
           <div className="mb-4">
             <label className="form-label">password</label>
-            <input 
+            <input
+              name='password'
               type="password" 
               className="form-control custom-input" 
               placeholder="••••••••"
@@ -43,8 +50,8 @@ const SignIn = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100 py-2 fw-bold shadow-sm">
-            Sign in 
+          <button disabled={isLoading} type="submit" className="btn btn-primary w-100 py-2 fw-bold shadow-sm">
+            {isLoading ? "redirect ....." : "Sign in"}
           </button>
         </form>
       </div>

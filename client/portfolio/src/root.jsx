@@ -1,5 +1,6 @@
 
 import { Outlet } from "react-router";
+import Navbar from "./components/navbar";
 const Root = () => {
 
   // loading whene userloading
@@ -28,7 +29,7 @@ const Root = () => {
           zIndex: "1000",
         }}
       >
-        {/* <Navebar /> */}
+        <Navbar />
       </div>
       {/* عشان خاصية ال ستيكي تشتغل لازم يكون ارتفاع الكونتينر اكبر من ارتفاع البوكس الداخلي */}
       <div

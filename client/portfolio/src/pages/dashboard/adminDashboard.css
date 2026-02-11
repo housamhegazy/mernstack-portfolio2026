@@ -1,0 +1,33 @@
+.admin-wrapper {
+  background-color: #080b12; /* خلفية داكنة جداً وفخمة */
+  min-height: 100vh;
+}
+
+.admin-section {
+  background: rgba(255, 255, 255, 0.02); /* خلفية فاتحة جداً للتمييز */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.admin-section:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.table-dark {
+  background-color: transparent !important;
+}
+
+small {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.7rem;
+}
