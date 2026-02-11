@@ -5,9 +5,8 @@ import { userApi } from "./UserApi";
 
 export const store = configureStore({
   reducer: {
-    // Add the generated reducer as a specific top-level slice
     [userApi.reducerPath]: userApi.reducer,
-    auth: authReducer, //خاصه بحالة المستخدم
+    auth: authReducer, 
     // theme: themeReducer, // theme
   },
   middleware: (getDefaultMiddleware) =>
