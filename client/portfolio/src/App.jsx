@@ -1,9 +1,36 @@
+import { Navigate, RouterProvider,createBrowserRouter } from "react-router";
+import ErrorPage from "./pages/ErrorPage";
+import Home from "./pages/home/home";
+import SignIn from "./pages/login/login";
+import Root from "./root";
 
 
 function App() {
-  return (
-    <div>hello</div>
-  )
-}
+  // @ts-ignore
+  // const { isAuthenticated } = useSelector((state) => state.auth);
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Root />,
+      errorElement: <ErrorPage />,
+      children: [
+        // home route for authenticated users(user and organizer)
+        {
+          index: true,
+          element: <Home />,
+        },
 
-export default App
+        {
+          path: "/signin",
+          element:  <SignIn />,
+        },
+        {
+          path: "*",
+          element: <ErrorPage />,
+        },
+      ],
+    },
+  ]);
+  return <RouterProvider router={router} />;
+}
+export default App;

@@ -3,8 +3,8 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const User = require('../models/UserModel.js');
-const {AuthmiddleWare} = require("../middleware/AuthmiddleWare.js");
+const User = require("../models/UserModel.js");
+const { AuthMiddleware } = require("../middleware/AuthmiddleWare.js");
 
 function setAuthCookie(res, token) {
   // إعداد الكوكيز مع الخيارات المناسبة
@@ -33,13 +33,9 @@ router.post("/login", async (req, res) => {
     }
 
     // إنشاء وتوقيع JWT
-    const token = jwt.sign(
-      { id: user._id},
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_EXPIRES_IN,
-      },
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
     setAuthCookie(res, token);
 
     res.status(200).json({
@@ -50,8 +46,22 @@ router.post("/login", async (req, res) => {
         name: user.name,
         email: user.email,
         avatar: user.avatar,
+        bio: user.bio,
       },
     });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.get("/profile", AuthMiddleware, async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

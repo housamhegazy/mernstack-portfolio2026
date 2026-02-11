@@ -17,7 +17,7 @@ const AuthMiddleware = (req, res, next) => {
     // يمكن تخزين id المستخدم مباشرة في req.user
     // (إذا كانت الـ payload تحتوي على { id: user._id })
     console.log(decoded);
-    req.user = { id: decoded.id, role: decoded.role };
+    req.user = { id: decoded.id };
     next();
   } catch (error) {
     console.error("❌ JWT verification error:", error.message);

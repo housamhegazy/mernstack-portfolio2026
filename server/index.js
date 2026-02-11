@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 
 const userRoute = require("./routes/userRoute")
 // ********************** Middleware **********************
-app.use(cookieParser()); // خاصه بقراءة الكوكيز من الطلبات ولازم تتواجد قبل اي روت
+// app.use(cookieParser()); // خاصه بقراءة الكوكيز من الطلبات ولازم تتواجد قبل اي روت
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/api/user",userRoute)
+app.use("/api/user",userRoute)
 const mongoURI = process.env.MONGODB_URI;
 
 mongoose
