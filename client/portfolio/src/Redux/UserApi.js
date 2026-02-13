@@ -52,6 +52,38 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"], // عشان يحدث البيانات في البروفايل فوراً
     }),
+
+    updateSocialLinks: builder.mutation({
+      query: (socialLinks) => ({
+        url: "/api/user/update-sociallinks",
+        method: "PUT",
+        body: { newsocialLinks: socialLinks }, // بنبعتها كـ JSON عادي
+      }),
+      invalidatesTags: ["User"], // عشان يحدث البيانات في البروفايل فوراً
+    }),
+    addproject: builder.mutation({
+      query: (data) => ({
+        url: "/api/user/add-project",
+        method: "POST",
+        body: data, // ابعت الـ FormData مباشرة هنا
+      }),
+      invalidatesTags: ["User"],
+    }),
+    deleteProject: builder.mutation({
+      query: (projectId) => ({
+        url: `/api/user/delete-project/${projectId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"], // عشان يخلي البيانات تتحدث تلقائياً في الشاشة
+    }),
+    editProject: builder.mutation({
+  query: ({ projectId, data }) => ({
+    url: `/api/user/edit-project/${projectId}`,
+    method: "PUT",
+    body: data, // الـ FormData اللي فيها الصورة والبيانات
+  }),
+  invalidatesTags: ["User"],
+}),
   }),
 });
 // Export hooks for usage in functional components, which are
@@ -61,5 +93,9 @@ export const {
   useSignOutMutation,
   useSigninMutation,
   useUpdateProfileMutation,
-  useUpdateSkillsMutation
+  useUpdateSkillsMutation,
+  useUpdateSocialLinksMutation,
+  useAddprojectMutation,
+  useDeleteProjectMutation,
+  useEditProjectMutation
 } = userApi;

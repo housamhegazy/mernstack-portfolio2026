@@ -109,7 +109,7 @@ router.put(
             .destroy(publicId)
             .catch(() => console.log("Delete old avatar failed"));
         }
-        const avatarFile = req.files.avatar[0]; 
+        const avatarFile = req.files.avatar[0];
         const fileUri = bufferToDataUri(avatarFile.mimetype, avatarFile.buffer);
         const uploadResult = await cloudinary.uploader.upload(fileUri, {
           folder: "portfolio-avatars",
@@ -168,7 +168,7 @@ router.put("/update-skills", AuthMiddleware, async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { professionalSkills: skills },
-      { new: true }
+      { new: true },
     ).select("professionalSkills"); // نرجع المهارات بس
 
     res.json(updatedUser);
@@ -177,4 +177,136 @@ router.put("/update-skills", AuthMiddleware, async (req, res) => {
   }
 });
 
+router.put("/update-sociallinks", AuthMiddleware, async (req, res) => {
+  try {
+    const { newsocialLinks } = req.body;
+    const userId = req.user.id;
+    if (!Array.isArray(newsocialLinks)) {
+      return res.status(400).json({ message: "social links must be an array" });
+    }
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { socialLinks: newsocialLinks },
+      { new: true, runValidators: true }, // runValidators عشان يتأكد من الـ Schema
+    ).select("socialLinks"); // نرجع المهارات بس
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(updatedUser.socialLinks);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.post("/add-project", AuthMiddleware, upload.single("projectImage"), async (req, res) => {
+  try {
+    const userId = req.user.id;
+    // الباك إند بيستقبل كائن المشروع الواحد في FormData تحت اسم "projectData"
+    let { projectData } = req.body; 
+    if (typeof projectData === "string") projectData = JSON.parse(projectData);
+
+    let imageData = { url: "", public_id: "" };
+
+    if (req.file) {
+      const fileDataUri = bufferToDataUri(req.file.mimetype, req.file.buffer);
+      const uploadResponse = await cloudinary.uploader.upload(fileDataUri, {
+        folder: "samsem_portfolio",
+      });
+      imageData = { url: uploadResponse.secure_url, public_id: uploadResponse.public_id };
+    }
+
+    // بناء كائن المشروع الجديد
+    const newProject = { 
+      ...projectData, 
+      image: imageData 
+    };
+
+    // إضافة المشروع الجديد للمصفوفة باستخدام $push
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $push: { projects: newProject } },
+      { new: true, runValidators: true }
+    ).select("projects");
+
+    res.status(201).json(updatedUser.projects);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// روت الحذف
+router.delete("/delete-project/:projectId", AuthMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { projectId } = req.params;
+
+    // 1. نجيب المستخدم والمشروع عشان نوصل للـ public_id بتاع الصورة
+    const user = await User.findById(userId);
+    const project = user.projects.id(projectId); // البحث عن المشروع الفرعي بواسطة الـ ID
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found, Samsem!" });
+    }
+
+    // 2. حذف الصورة من كلاوديناري لو موجودة
+    if (project.image && project.image.public_id) {
+      await cloudinary.uploader.destroy(project.image.public_id);
+    }
+
+    // 3. حذف المشروع من مصفوفة المستخدم في المونجو
+    user.projects.pull(projectId); 
+    await user.save();
+
+    res.json({ message: "Project deleted successfully", projects: user.projects });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+router.put("/edit-project/:projectId", AuthMiddleware, upload.single("projectImage"), async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { projectId } = req.params;
+    
+    // تحويل البيانات النصية من FormData
+    let { updatedData } = req.body;
+    if (typeof updatedData === "string") updatedData = JSON.parse(updatedData);
+
+    const user = await User.findById(userId);
+    const project = user.projects.id(projectId); // الوصول للمشروع داخل المصفوفة
+
+    if (!project) return res.status(404).json({ message: "Project not found, Samsem!" });
+
+    // ⭐️ في حالة وجود صورة جديدة مرفوعة
+    if (req.file) {
+      // أ- حذف الصورة القديمة من كلاوديناري
+      if (project.image && project.image.public_id) {
+        await cloudinary.uploader.destroy(project.image.public_id);
+      }
+
+      // ب- رفع الصورة الجديدة (تحويل Buffer لـ Data URI)
+      const fileDataUri = bufferToDataUri(req.file.mimetype, req.file.buffer);
+      const uploadResponse = await cloudinary.uploader.upload(fileDataUri, {
+        folder: "samsem_portfolio",
+      });
+
+      // ج- تحديث بيانات الصورة في المشروع
+      project.image = {
+        url: uploadResponse.secure_url,
+        public_id: uploadResponse.public_id
+      };
+    }
+
+    // تحديث باقي البيانات النصية (Title, Description, etc.)
+    // بنستخدم Object.assign عشان نحدث الحقول اللي جت بس
+    Object.assign(project, updatedData);
+
+    await user.save(); // حفظ التغييرات في المونجو
+    res.json({ message: "Project updated successfully", projects: user.projects });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 module.exports = router;

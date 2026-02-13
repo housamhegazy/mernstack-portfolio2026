@@ -4,6 +4,7 @@ import { useSignOutMutation, useGetUserByNameQuery } from "../../Redux/UserApi";
 import PersonalInfo from "./personalInfo";
 import ProfisionalSkills from "./profissinalSkills";
 import Projects from "./projects"
+import SocialLinks from "./socialLinks";
 const AdminDashboard = () => {
   const { data: user, isLoading: isUserLoading } = useGetUserByNameQuery();
   const [signOut, { isLoading }] = useSignOutMutation();
@@ -44,29 +45,7 @@ const AdminDashboard = () => {
         <Projects user = {user}/>
 
         {/* 4. Contact & Social Links Section */}
-        <section className="admin-section mb-4 p-4 shadow-sm">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h3 className="text-danger mb-0">
-              <i className="bi bi-share me-2"></i>Contact & Socials
-            </h3>
-            <button className="btn btn-sm btn-outline-danger px-4 rounded-pill">
-              Edit Links
-            </button>
-          </div>
-          <div className="row g-3">
-            <div className="col-md-4">
-              <i className="bi bi-envelope me-2 text-muted"></i>
-              geohousam@gmail.com
-            </div>
-            <div className="col-md-4">
-              <i className="bi bi-linkedin me-2 text-muted"></i>
-              linkedin.com/in/housam
-            </div>
-            <div className="col-md-4">
-              <i className="bi bi-github me-2 text-muted"></i>github.com/housam
-            </div>
-          </div>
-        </section>
+        <SocialLinks user = {user}/>
       </div>
     </div>
   );

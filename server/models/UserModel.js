@@ -15,12 +15,37 @@ const userSchema = new mongoose.Schema(
     college: String,
     university: String,
     cv: String,
-    socialLinks: [
-      {
-        platform: String, // مثلاً LinkedIn
-        url: String, // الرابط
-      },
-    ],
+    socialLinks: {
+      type: [
+        {
+          platform: String, // LinkedIn, GitHub, etc.
+          url: String,
+        },
+      ],
+      default: [], // القيمة الافتراضية تكون مصفوفة فاضية هنا
+    },
+
+    // ---------------- إضافة المشاريع هنا ----------------
+    projects: {
+      type: [
+        {
+          title: { type: String, required: true },
+          description: { type: String, required: true },
+          image: {
+            url: { type: String, default: "" },
+            public_id: { type: String, default: "" }, // مهم جداً للحذف
+          },
+          technologies: [String], // مثال: ["React", "Node.js"]
+          githubLink: String,
+          liveLink: String, // رابط المعاينة المباشرة
+          category: { type: String, default: "Web Development" },
+          startDate: Date,
+          endDate: Date,
+        },
+      ],
+      default: [],
+    },
+
     professionalSkills: {
       type: [String], // مصفوفة من الكلمات (مثل: React, Node, SQL)
       default: [],
