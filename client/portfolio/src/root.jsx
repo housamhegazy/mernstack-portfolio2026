@@ -1,12 +1,17 @@
 
 import { Outlet } from "react-router";
 import Navbar from "./components/navbar";
+import { useGetUserByNameQuery } from "./Redux/UserApi";
+import LoadingPage from "./pages/loadingPage";
 const Root = () => {
 
+const { isLoading: userLoading } = useGetUserByNameQuery(undefined, {
+    skip: false,
+  });
   // loading whene userloading
-  // if (userLoading) {
-  //   return <LoadingPage />;
-  // }
+  if (userLoading) {
+    return <LoadingPage />;
+  }
   //=================================================================================================================
   return (
     <div

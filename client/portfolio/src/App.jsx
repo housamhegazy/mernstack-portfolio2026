@@ -4,11 +4,11 @@ import Home from "./pages/home/home";
 import SignIn from "./pages/login/login";
 import Root from "./Root";
 import AdminDashboard from "./pages/dashboard/adminDashboard";
-
+import { useSelector } from "react-redux";
 
 function App() {
   // @ts-ignore
-  // const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -18,16 +18,16 @@ function App() {
         // home route for authenticated users(user and organizer)
         {
           index: true,
-          element: <Home />,
+          element: !isAuthenticated ? <Home /> : <Navigate to='/admindashboard'/>,
         },
 
         {
           path: "/signin",
-          element:  <SignIn />,
+          element: !isAuthenticated ? <SignIn/> :  <Navigate to='/admindashboard'/>,
         },
         {
           path:"/admindashboard",
-          element:<AdminDashboard/>
+          element:isAuthenticated ?  <AdminDashboard/> : <Navigate to='/'/>
         },
         {
           path: "*",

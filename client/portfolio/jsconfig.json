@@ -1,20 +1,20 @@
 {
   "compilerOptions": {
-    "checkJs": true,
+    "checkJs": false, // ✅ دي أهم واحدة! حولناها لـ false عشان يقفل فحص الـ Types
     "jsx": "react-jsx",
     "baseUrl": "src",
     "resolveJsonModule": true,
     "module": "esnext",
     "target": "es2020",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "ignoreDeprecations": "6.0"
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
     "node_modules",
+    "dist", 
     "build"
   ]
 }

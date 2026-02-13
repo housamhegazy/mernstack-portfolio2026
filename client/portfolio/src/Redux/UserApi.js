@@ -29,10 +29,28 @@ export const userApi = createApi({
     //signout
     signOut: builder.mutation({
       query: () => ({
-        url: "/api/user/logout",
+        url: "/api/user/signout",
         method: "POST",
       }),
       invalidatesTags: ["User"],
+    }),
+
+    updateProfile: builder.mutation({
+      query: (formData) => ({
+        url: "/api/user/updateprofile",
+        method: "PUT",
+        body: formData, // الـ formData هيتبعت هنا
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    updateSkills: builder.mutation({
+      query: (skillsArray) => ({
+        url: "/api/user/update-skills",
+        method: "PUT",
+        body: { skills: skillsArray }, // بنبعتها كـ JSON عادي
+      }),
+      invalidatesTags: ["User"], // عشان يحدث البيانات في البروفايل فوراً
     }),
   }),
 });
@@ -42,4 +60,6 @@ export const {
   useGetUserByNameQuery,
   useSignOutMutation,
   useSigninMutation,
+  useUpdateProfileMutation,
+  useUpdateSkillsMutation
 } = userApi;
