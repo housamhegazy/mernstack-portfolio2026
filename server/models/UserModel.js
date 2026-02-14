@@ -9,8 +9,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:
         "https://res.cloudinary.com/demo/image/upload/d_avatar.png/avatar.png",
-    }, // عشان تقدر تغير صورتك من الداشبورد زي ما طلبت
-    bio: String, // وصفك الشخصي اللي هيظهر في الـ Home Page
+    }, 
+    bio: String, 
     age: Number,
     college: String,
     university: String,
@@ -22,10 +22,8 @@ const userSchema = new mongoose.Schema(
           url: String,
         },
       ],
-      default: [], // القيمة الافتراضية تكون مصفوفة فاضية هنا
+      default: [],
     },
-
-    // ---------------- إضافة المشاريع هنا ----------------
     projects: {
       type: [
         {
@@ -33,11 +31,11 @@ const userSchema = new mongoose.Schema(
           description: { type: String, required: true },
           image: {
             url: { type: String, default: "" },
-            public_id: { type: String, default: "" }, // مهم جداً للحذف
+            public_id: { type: String, default: "" }, 
           },
-          technologies: [String], // مثال: ["React", "Node.js"]
+          technologies: [String], 
           githubLink: String,
-          liveLink: String, // رابط المعاينة المباشرة
+          liveLink: String, 
           category: { type: String, default: "Web Development" },
           startDate: Date,
           endDate: Date,
@@ -47,12 +45,12 @@ const userSchema = new mongoose.Schema(
     },
 
     professionalSkills: {
-      type: [String], // مصفوفة من الكلمات (مثل: React, Node, SQL)
+      type: [String], 
       default: [],
     },
   },
   {
-    timestamps: true, // لإضافة حقلي createdAt و updatedAt تلقائياً
+    timestamps: true, 
   },
 );
 
