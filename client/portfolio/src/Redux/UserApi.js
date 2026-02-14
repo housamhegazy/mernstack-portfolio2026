@@ -26,6 +26,11 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+    // جلب بيانات البورتفوليو العام (مفتوح للكل)
+    getUserData: builder.query({
+      query: () => `/api/user/userData`, 
+      providesTags: ["User"],
+    }),
     //signout
     signOut: builder.mutation({
       query: () => ({
@@ -77,13 +82,13 @@ export const userApi = createApi({
       invalidatesTags: ["User"], // عشان يخلي البيانات تتحدث تلقائياً في الشاشة
     }),
     editProject: builder.mutation({
-  query: ({ projectId, data }) => ({
-    url: `/api/user/edit-project/${projectId}`,
-    method: "PUT",
-    body: data, // الـ FormData اللي فيها الصورة والبيانات
-  }),
-  invalidatesTags: ["User"],
-}),
+      query: ({ projectId, data }) => ({
+        url: `/api/user/edit-project/${projectId}`,
+        method: "PUT",
+        body: data, // الـ FormData اللي فيها الصورة والبيانات
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 // Export hooks for usage in functional components, which are
@@ -97,5 +102,6 @@ export const {
   useUpdateSocialLinksMutation,
   useAddprojectMutation,
   useDeleteProjectMutation,
-  useEditProjectMutation
+  useEditProjectMutation,
+  useGetUserDataQuery,
 } = userApi;

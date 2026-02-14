@@ -9,3 +9,52 @@
     padding: 0;
     box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
+
+/* تعديل بسيط لشكل السكرول بار عشان يليق بالبورتفوليو */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #198754; /* لون الـ success */
+  border-radius: 10px;
+}
+
+
+/* ========================================================================================= */
+
+.text-accent { /* لون مميز للإبراز */
+  color: #FFD700; /* ذهبي */
+  /* أو ممكن تستخدم #FFA500; (برتقالي) */
+}
+.btn-accent {
+  background-color: #FFD700;
+  border-color: #FFD700;
+  color: #343a40; /* نص غامق عشان يبان على الذهبي */
+  transition: all 0.3s ease;
+}
+.btn-accent:hover {
+  background-color: #e6c200;
+  border-color: #e6c200;
+  transform: translateY(-2px);
+}
+.bg-deep-blue { /* خلفية غامقة جداً */
+  background-color: #1a202c; /* لون أزرق غامق جداً */
+}
+.border-accent {
+  border-color: #FFD700 !important;
+}
+
+/* Hover effect للمشاريع */
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+.transition {
+  transition: all 0.3s ease;
+}

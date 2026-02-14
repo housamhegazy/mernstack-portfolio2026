@@ -309,4 +309,21 @@ router.put("/edit-project/:projectId", AuthMiddleware, upload.single("projectIma
     res.status(500).json({ message: error.message });
   }
 });
+
+router.get("/userdata", async (req, res) => {
+  try {
+    // استخدم findOne عشان نجيب أول مستخدم (اللي هو إنت) 
+    // وبنعمل select("-password") عشان الباسورد ميبانش في الفرونت إند لأي حد
+    const data = await User.findOne().select("-password -tokens -role");
+
+    if (!data) {
+      return res.status(404).json({ message: "User data not found, Samsem!" });
+    }
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
