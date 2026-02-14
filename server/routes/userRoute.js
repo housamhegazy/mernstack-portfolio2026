@@ -118,17 +118,25 @@ router.put(
         avatarUrl = uploadResult.secure_url;
       }
 
-      // --- معالجة ملف السي في (CV) ---
-      if (req.files && req.files.cvFile) {
-        const cvFile = req.files.cvFile[0]; // بناخد أول ملف في مصفوفة الـ cvFile
-        const fileUri = bufferToDataUri(cvFile.mimetype, cvFile.buffer);
-        const result = await cloudinary.uploader.upload(fileUri, {
-          folder: "portfolio-cvs",
-          resource_type: "raw", // مهم جداً للملفات الـ PDF
-          public_id: `cv-${userId}-${Date.now()}`,
-        });
-        cvUrl = result.secure_url;
-      }
+    // --- معالجة ملف السي في (CV) ---
+if (req.files && req.files.cvFile) {
+  const cvFile = req.files.cvFile[0];
+  const fileUri = bufferToDataUri(cvFile.mimetype, cvFile.buffer);
+
+  const result = await cloudinary.uploader.upload(fileUri, {
+    folder: "portfolio-cvs",
+    // ✅ هنستخدم 'image' بدل 'auto' لأن الكلاوديناري بيعامل الـ PDF كصورة مستند
+    resource_type: "image", 
+    format: "pdf", // نحدد التنسيق يدوي
+    type: "upload", // التأكيد إن النوع رفع عادي مش محمي
+    access_mode: "public", // متاح للكل
+    // ✅ شيل الـ .pdf من الاسم عشان هو هيضيفه أوتوماتيك من الـ format
+    public_id: `cv-${userId}-${Date.now()}`, 
+    invalidate: true, // عشان يمسح أي كاش قديم للأيرور
+  });
+
+  cvUrl = result.secure_url;
+}
 
       // 2. تحديث البيانات (تأكد من تمرير role: finalRole)
       const updatedUser = await User.findByIdAndUpdate(

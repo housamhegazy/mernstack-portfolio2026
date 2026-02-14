@@ -350,45 +350,78 @@ const Home = () => {
           <p className="text-secondary mb-5 small">
             Interested in working together? Reach out!
           </p>
+
           <div className="d-flex justify-content-center flex-wrap gap-4 fs-2 mb-5">
-            {user.socialLinks?.github && (
-              <a
-                href={user.socialLinks.github}
-                target="_blank"
-                rel="noreferrer"
-                className="text-white"
-              >
-                <i className="bi bi-github"></i>
-              </a>
-            )}
-            {user.socialLinks?.linkedin && (
-              <a
-                href={user.socialLinks.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="text-white"
-              >
-                <i className="bi bi-linkedin"></i>
-              </a>
-            )}
-            {user.socialLinks?.facebook && (
-              <a
-                href={user.socialLinks.facebook}
-                target="_blank"
-                rel="noreferrer"
-                className="text-white"
-              >
-                <i className="bi bi-facebook"></i>
-              </a>
-            )}
+            {/* بنعمل Loop على مصفوفة السوشيال ميديا */}
+            {user.socialLinks?.map((link, index) => {
+              const formatUrl = (url) => {
+                if (!url) return "#";
+                return url.startsWith("http") ? url : `https://${url}`;
+              };
+              // بنحدد الأيقونة بناءً على اسم المنصة (platform)
+              const platform = link.platform.toLowerCase();
+              let iconClass = "bi bi-link-45deg"; // أيقونة افتراضية
+              const brandColors = {
+                github: "#ffffff", // أبيض أو أسود حسب الرغبة
+                linkedin: "#0077b5", // أزرق لينكد إن
+                facebook: "#1877f2", // أزرق فيسبوك
+                whatsapp: "#25d366", // أخضر واتساب
+                instagram: "#e4405f", // وردي انستجرام
+                twitter: "#1da1f2", // أزرق تويتر
+                x: "#ffffff", // أبيض لـ X
+                youtube: "#ff0000", // أحمر يوتيوب
+              };
+              if (platform.includes("github")) iconClass = "bi bi-github";
+              if (platform.includes("linkedin")) iconClass = "bi bi-linkedin";
+              if (platform.includes("facebook")) iconClass = "bi bi-facebook";
+              if (platform.includes("whatsapp")) iconClass = "bi bi-whatsapp";
+              if (platform.includes("twitter") || platform.includes("x"))
+                iconClass = "bi bi-twitter-x";
+              if (platform.includes("instagram")) iconClass = "bi bi-instagram";
+
+              return (
+                <a
+                  key={index}
+                  href={formatUrl(link.url)} // استخدام الوظيفة هنا
+                  target="_blank"
+                  rel="noreferrer"
+                  className="transition-hover"
+                  title={link.platform}
+                  style={{
+                    color:
+                      brandColors[
+                        Object.keys(brandColors).find((key) =>
+                          platform.includes(key),
+                        )
+                      ] || "#ffffff",
+                    fontSize: "inherit",
+                  }}
+                >
+                  <i className={iconClass}></i>
+                </a>
+              );
+            })}
           </div>
+
           <a
             href={`mailto:${user.email}`}
-            className="btn btn-accent btn-lg w-100 w-md-auto px-5 py-3 rounded-pill fw-bold"
+            className="btn btn-accent btn-lg w-100 w-md-auto px-5 py-3 rounded-pill fw-bold text-dark"
           >
             <i className="bi bi-send me-2"></i> Email Me
           </a>
         </div>
+
+        <style>
+          {`
+      .transition-hover {
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
+      .transition-hover:hover {
+        transform: scale(1.2);
+        color: #FFD700 !important; /* اللون الذهبي بتاعك */
+      }
+    `}
+        </style>
       </section>
 
       {/* Footer */}

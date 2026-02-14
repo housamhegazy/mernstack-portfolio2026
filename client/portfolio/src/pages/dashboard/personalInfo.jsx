@@ -229,7 +229,7 @@ const PersonalInfo = ({user}) => {
                     <a
                       href={user.cv}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="btn btn-sm btn-link text-info p-0 text-decoration-none"
                       download
                     >
