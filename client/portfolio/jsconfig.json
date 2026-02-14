@@ -2,11 +2,13 @@
   "compilerOptions": {
     "checkJs": false, // ✅ دي أهم واحدة! حولناها لـ false عشان يقفل فحص الـ Types
     "jsx": "react-jsx",
-    "baseUrl": "src",
+    "paths": {
+    "@/*": ["./src/*"]
+  },
     "resolveJsonModule": true,
     "module": "esnext",
     "target": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true
   },
   "include": [
