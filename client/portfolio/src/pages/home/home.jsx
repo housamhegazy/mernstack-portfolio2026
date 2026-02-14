@@ -1,5 +1,6 @@
 import React from "react";
 import { useGetUserDataQuery } from "../../Redux/UserApi";
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const { data: user, isLoading, isError } = useGetUserDataQuery();
@@ -186,7 +187,25 @@ const Home = () => {
         <p className="text-secondary mb-0 small">
           Made with ❤️ by <span className="text-accent fw-bold">{user?.name}</span>
         </p>
+        {/* لينك مخفي أو بسيط للدخول لصفحة الأدمن */}
+    <div className="mt-2">
+      <Link 
+        to="/signin" 
+        className="text-secondary text-decoration-none" 
+        style={{ fontSize: '10px', opacity: 0.5, transition: '0.3s' }}
+        onMouseEnter={(e) => e.target.style.opacity = 1}
+        onMouseLeave={(e) => e.target.style.opacity = 0.5}
+      >
+        <i className="bi bi-lock-fill me-1"></i> Admin Login
+      </Link>
+    </div>
       </footer>
+
+
+
+
+
+      
     </div>
   );
 };

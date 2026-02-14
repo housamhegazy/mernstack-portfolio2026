@@ -9,7 +9,7 @@ const Root = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   const { isLoading: userLoading } = useGetUserByNameQuery(undefined, {
-    skip: !isAuthenticated,
+    // skip: !isAuthenticated,
   });
 
   if (isAuthenticated && userLoading) {
@@ -37,7 +37,7 @@ const Root = () => {
           zIndex: "1000",
         }}
       >
-        <Navbar />
+      {!isAuthenticated && !userLoading && <Navbar />}  
       </div>
 
       <div

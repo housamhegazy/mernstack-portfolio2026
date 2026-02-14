@@ -3,14 +3,18 @@ import { Link } from 'react-router-dom';
 // ملاحظة: لو حابب تثبت مكتبة react-router-hash-link هتبقى أفضل، 
 // بس حالياً هنعدلها لروابط داخلية سريعة.
 import './navbar.css';
+import { useSelector } from "react-redux";
+
 
 const Navbar = () => {
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark-custom sticky-top shadow-sm">
       <div className="container">
         {/* Logo */}
         <Link className="navbar-brand fw-bold text-gradient fs-4" to="/">
-          SEMSUM.DEV
+          Housam.DEV
         </Link>
 
         {/* Mobile Toggle */}
