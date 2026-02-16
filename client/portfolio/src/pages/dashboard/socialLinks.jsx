@@ -24,6 +24,13 @@ const SocialLinks = ({ user }) => {
     if (p.includes("facebook")) return "bi-facebook";
     if (p.includes("instagram")) return "bi-instagram";
     if (p.includes("twitter") || p.includes(" x")) return "bi-twitter-x";
+    if (
+      p.includes("whatsapp") ||
+      p.includes("wa.me") ||
+      p.includes("api.whatsapp")
+    ) {
+      return "bi-whatsapp";
+    }
     return "bi-link-45deg";
   };
 

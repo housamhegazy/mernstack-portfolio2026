@@ -37,7 +37,7 @@ const Root = () => {
           zIndex: "1000",
         }}
       >
-      {!isAuthenticated && !userLoading && <Navbar />}  
+      <Navbar />
       </div>
 
       <div

@@ -120,19 +120,24 @@ router.put(
 
     // --- معالجة ملف السي في (CV) ---
 if (req.files && req.files.cvFile) {
+  // 1. حذف السي في القديم من كلاوديناري لو موجود
+  if (user.cv) {
+    const cvPublicId = user.cv.split('/').pop().split('.')[0]; 
+    // ملاحظة: لو بتستخدم فولدرات، ستحتاج لاستخراج الـ Path كاملاً
+    await cloudinary.uploader.destroy(`portfolio-cvs/${cvPublicId}`, { resource_type: 'image' })
+      .catch(() => console.log("Old CV delete failed or not found"));
+  }
+
   const cvFile = req.files.cvFile[0];
   const fileUri = bufferToDataUri(cvFile.mimetype, cvFile.buffer);
 
   const result = await cloudinary.uploader.upload(fileUri, {
     folder: "portfolio-cvs",
-    // ✅ هنستخدم 'image' بدل 'auto' لأن الكلاوديناري بيعامل الـ PDF كصورة مستند
     resource_type: "image", 
-    format: "pdf", // نحدد التنسيق يدوي
-    type: "upload", // التأكيد إن النوع رفع عادي مش محمي
-    access_mode: "public", // متاح للكل
-    // ✅ شيل الـ .pdf من الاسم عشان هو هيضيفه أوتوماتيك من الـ format
-    public_id: `cv-${userId}-${Date.now()}`, 
-    invalidate: true, // عشان يمسح أي كاش قديم للأيرور
+    format: "pdf",
+    public_id: `cv-${userId}`, // خليه ثابت لكل مستخدم عشان ميتكررش
+    overwrite: true, // يمسح القديم لو بنفس الاسم
+    invalidate: true,
   });
 
   cvUrl = result.secure_url;

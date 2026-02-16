@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   // @ts-ignore
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, isLoadingAuth } = useSelector((state) => state.auth);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -20,11 +20,7 @@ function App() {
         // home route for authenticated users(user and organizer)
         {
           index: true,
-          element: !isAuthenticated ? (
-            <Home />
-          ) : (
-            <Navigate to="/admindashboard" />
-          ),
+          element: <Home />,
         },
 
         {
@@ -37,7 +33,12 @@ function App() {
         },
         {
           path: "/admindashboard",
-          element: isAuthenticated ? <AdminDashboard /> : <Navigate to="/" />,
+          element:
+            isAuthenticated || isLoadingAuth ? (
+              <AdminDashboard />
+            ) : (
+              <Navigate to="/" />
+            ),
         },
         {
           path: "*",
