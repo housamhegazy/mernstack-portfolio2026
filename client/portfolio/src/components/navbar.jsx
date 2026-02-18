@@ -52,11 +52,13 @@ const Navbar = () => {
                 Contact Me
               </HashLink>
             </li>
-            {isAuthenticated && <li className="nav-item">
-              <HashLink smooth className="nav-link mx-2" to="/admindashboard">
-                dashboard
-              </HashLink>
-            </li>}
+            {isAuthenticated && (
+              <li className="nav-item">
+                <HashLink smooth className="nav-link mx-2" to="/admindashboard">
+                  dashboard
+                </HashLink>
+              </li>
+            )}
           </ul>
         </div>
       </div>

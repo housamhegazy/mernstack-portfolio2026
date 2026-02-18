@@ -13,6 +13,7 @@ const SocialLinks = ({ user }) => {
   useEffect(() => {
     if (user?.socialLinks) {
       setSocialLinks(user.socialLinks);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }
   }, [user]);
 
