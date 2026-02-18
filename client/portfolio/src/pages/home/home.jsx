@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useGetUserDataQuery } from "../../Redux/UserApi";
 import { Link } from "react-router-dom";
+import "./home.css";
 const getSkillIcon = (skillName) => {
   const name = skillName.toLowerCase();
 
@@ -248,12 +249,18 @@ const Home = () => {
           aria-hidden="true"
         >
           <div className="modal-dialog modal-xl modal-dialog-centered">
-            <div className="modal-content bg-deep-blue border-accent text-white shadow-lg">
-              {/* Modal Header */}
-              <div className="modal-header border-secondary border-opacity-25">
-                <h5 className="modal-title fw-bold text-accent">
+            <div
+              className="modal-content bg-deep-blue border-accent text-white shadow-lg border-0 overflow-hidden"
+              style={{ borderRadius: "15px", backdropFilter: "blur(10px)" }}
+            >
+              {/* Modal Header - تصميم أنيق وبسيط */}
+              <div className="modal-header border-0 p-4 pb-0">
+                <h3
+                  className="modal-title fw-bold text-gradient-accent"
+                  id="exampleModalLabel"
+                >
                   {selectedProject?.title}
-                </h5>
+                </h3>
                 <button
                   type="button"
                   className="btn-close btn-close-white"
@@ -262,43 +269,71 @@ const Home = () => {
                 ></button>
               </div>
 
-              {/* Modal Body */}
               <div className="modal-body p-0">
                 <div className="row g-0">
-                  {/* الجزء الخاص بالصورة الكبيرة */}
-                  <div className="col-lg-7">
+                  {/* الجزء الخاص بالصورة - مع إضافة Shadow خفيف داخل الإطار */}
+                  <div className="col-lg-7 bg-black d-flex align-items-center justify-content-center">
                     <img
                       src={selectedProject?.image?.url}
                       alt={selectedProject?.title}
-                      className="img-fluid w-100"
+                      className="img-fluid"
                       style={{
-                        maxHeight: "500px",
-                        objectFit: "contain",
-                        backgroundColor: "#000",
+                        maxHeight: "550px",
+                        width: "100%",
+                        objectFit: "cover", // غيرتها لـ cover عشان تملى المساحة بشكل أشيك
+                        transition: "transform 0.3s ease",
                       }}
                     />
                   </div>
 
-                  {/* الجزء الخاص بالتفاصيل */}
-                  <div className="col-lg-5 p-4 d-flex flex-column justify-content-between">
-                    <div>
-                      <h4 className="fw-bold mb-3 text-white border-bottom border-accent pb-2">
-                        Description
-                      </h4>
-                      <p
-                        className="text-secondary lead"
-                        style={{ fontSize: "1rem", textAlign: "justify" }}
+                  {/* الجزء الخاص بالتفاصيل - تنظيم أكثر دقة */}
+                  <div className="col-lg-5 p-4 p-md-5 d-flex flex-column">
+                    {/* قسم الوصف */}
+                    <div className="mb-4">
+                      <h5
+                        className="text-accent fw-bold text-uppercase mb-3"
+                        style={{ letterSpacing: "1px", fontSize: "0.9rem" }}
                       >
-                        {selectedProject?.description}
-                      </p>
+                        <i className="bi bi-info-circle me-2"></i> Project
+                        Overview
+                      </h5>
+                      <div
+                        className="description-container custom-scrollbar"
+                        style={{ maxHeight: "200px", overflowY: "auto" }}
+                      >
+                        <p
+                          className="text-light-gray"
+                          style={{
+                            lineHeight: "1.8",
+                            fontSize: "1.05rem",
+                            textAlign: "left",
+                            wordBreak: "break-word", // بيجبر الكلام ينزل سطر جديد لو الكلمة طويلة
+                            whiteSpace: "pre-line",
+                          }}
+                        >
+                          {selectedProject?.description}
+                        </p>
+                      </div>
+                    </div>
 
-                      <h5 className="fw-bold mt-4 text-accent">Tech Stack:</h5>
-                      <div className="d-flex flex-wrap gap-2 mb-4">
+                    {/* قسم التقنيات */}
+                    <div className="mb-4">
+                      <h5
+                        className="text-accent fw-bold text-uppercase mb-3"
+                        style={{ letterSpacing: "1px", fontSize: "0.9rem" }}
+                      >
+                        <i className="bi bi-cpu me-2"></i> Tech Stack
+                      </h5>
+                      <div className="d-flex flex-wrap gap-2">
                         {selectedProject?.technologies?.map((tech, i) => (
                           <span
-                            style={{ whiteSpace: "normal", textAlign: "left" }}
                             key={i}
-                            className="badge bg-secondary rounded-pill px-3 py-2"
+                            className="badge border border-accent text-accent px-3 py-2"
+                            style={{
+                              backgroundColor: "rgba(var(--accent-rgb), 0.1)",
+                              fontWeight: "500",
+                              whiteSpace: "normal", // بيسمح للبادج نفسه ينزل سطر لو الاسم طويل
+                            }}
                           >
                             {tech}
                           </span>
@@ -306,29 +341,34 @@ const Home = () => {
                       </div>
                     </div>
 
-                    {/* الروابط في أسفل المودال */}
-                    <div className="d-flex gap-3 mt-4 pt-3 border-top border-secondary border-opacity-25">
-                      {selectedProject?.githubLink && (
-                        <a
-                          href={selectedProject.githubLink}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="btn btn-outline-light flex-grow-1 py-2 fw-bold"
-                        >
-                          <i className="bi bi-github me-2"></i> GitHub Repo
-                        </a>
-                      )}
-                      {selectedProject?.liveLink && (
-                        <a
-                          href={selectedProject.liveLink}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="btn btn-accent flex-grow-1 py-2 fw-bold text-dark"
-                        >
-                          <i className="bi bi-box-arrow-up-right me-2"></i> Live
-                          Demo
-                        </a>
-                      )}
+                    {/* الروابط - في الأسفل مع تمييز الأزرار */}
+                    <div className="mt-auto pt-4 d-flex flex-column gap-2">
+                      <div className="row g-2">
+                        {selectedProject?.githubLink && (
+                          <div className="col-6">
+                            <a
+                              href={selectedProject.githubLink}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="btn btn-outline-light w-100 py-2 fw-bold d-flex align-items-center justify-content-center"
+                            >
+                              <i className="bi bi-github me-2"></i> Code
+                            </a>
+                          </div>
+                        )}
+                        {selectedProject?.liveLink && (
+                          <div className="col-6">
+                            <a
+                              href={selectedProject.liveLink}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="btn btn-accent w-100 py-2 fw-bold text-dark d-flex align-items-center justify-content-center"
+                            >
+                              <i className="bi bi-eye me-2"></i> Live
+                            </a>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

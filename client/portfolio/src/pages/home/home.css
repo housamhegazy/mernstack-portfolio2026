@@ -1,0 +1,21 @@
+.text-light-gray {
+  color: #d1d1d1; /* لون فاتح وأوضح من السكندري */
+}
+
+.text-gradient-accent {
+  background: linear-gradient(45deg, #00f2fe 0%, #4facfe 100%); /* غير الألوان حسب الـ theme بتاعك */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Scrollbar شيك للوصف لو الكلام كتير */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-rgb), 0.3);
+  border-radius: 10px;
+}
