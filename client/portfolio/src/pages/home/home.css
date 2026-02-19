@@ -19,3 +19,84 @@
   background: rgba(var(--accent-rgb), 0.3);
   border-radius: 10px;
 }
+
+/* تنسيق المودال الأساسي */
+.project-modal-content {
+    background-color: #0a192f; /* لون الخلفية الداكن */
+    border-radius: 20px !important;
+}
+
+/* تنسيق الصورة وحاويتها */
+.modal-img-container {
+    height: 100%;
+    min-height: 500px; /* طول مناسب للشاشات الكبيرة */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+}
+
+.modal-main-img {
+    max-height: 600px; /* عشان الصورة متكبرش بزيادة وتخرج عن السيطرة */
+    width: 100%;
+    object-fit: contain; /* ده بيخلي الصورة كاملة تظهر في النص بدون قص */
+    transition: transform 0.5s ease;
+}
+
+/* تاثير خفيف عند الوقوف على الصورة */
+.modal-img-container:hover .modal-main-img {
+    transform: scale(1.02);
+}
+
+/* نصوص الوصف */
+.modal-description {
+    line-height: 1.7;
+    color: #a8b2d1;
+    font-size: 1.05rem;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* تنسيق الـ Tech Tags */
+.tech-tag-v2 {
+    background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: #FFD700;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* زر الإغلاق */
+.btn-close-custom {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    z-index: 1051;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    /* color: white; */
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    backdrop-filter: blur(5px);
+    transition: 0.3s;
+}
+
+.btn-close-custom:hover {
+    background: #FFD700;
+    color: #000;
+    transform: rotate(90deg);
+}
+
+/* تحسينات للموبايل */
+@media (max-width: 991.98px) {
+    .modal-img-container {
+        min-height: 300px;
+    }
+    .modal-main-img {
+        max-height: 400px;
+    }
+}
