@@ -110,7 +110,7 @@ const Projects = ({ user }) => {
     <section className="admin-section mb-4 p-4 shadow-sm bg-dark rounded text-white border border-secondary">
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h3 className="text-success mb-0"><i className="bi bi-folder-plus me-2"></i>Project Gallery</h3>
+        <h3 className="text-success mb-0 d-md-block fs-6 fs-md-3"><i className="bi bi-folder-plus me-2"></i>Project Gallery</h3>
         <button onClick={() => { resetForm(); setShowModal(true); }} className="btn btn-sm btn-outline-success px-4 rounded-pill">
           Add New Project
         </button>

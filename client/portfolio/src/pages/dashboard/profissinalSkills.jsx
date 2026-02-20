@@ -38,7 +38,7 @@ const ProfisionalSkills = ({ user }) => {
   return (
     <section className="admin-section mb-4 p-4 shadow-sm">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h3 className="text-warning mb-0">
+        <h3 className="text-warning mb-0 d-md-block fs-6 fs-md-3">
           <i className="bi bi-lightbulb me-2"></i>Professional Skills
         </h3>
         <button

@@ -67,7 +67,7 @@ const SocialLinks = ({ user }) => {
   return (
     <section className="admin-section mb-4 p-4 shadow-sm bg-dark text-white rounded border border-secondary">
       <div className="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
-        <h3 className="text-danger mb-0">
+        <h3 className="text-danger mb-0 d-md-block fs-6 fs-md-3">
           <i className="bi bi-share me-2"></i>Contact & Socials
         </h3>
         <button
