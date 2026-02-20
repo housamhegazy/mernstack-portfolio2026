@@ -79,7 +79,6 @@ const Home = () => {
 
             {/* Content Column */}
             <div className="col-lg-7 text-center text-lg-start order-2 order-lg-1">
-              <h5 className="text-accent fw-bold text-uppercase tracking-widest mb-3">Professional Portfolio</h5>
               <h1 className="hero-title fw-bold mb-3">
                 I'm <span className="text-gradient">{user.name || "Samsem"}</span>
               </h1>
