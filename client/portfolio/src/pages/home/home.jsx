@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useGetUserDataQuery } from "../../Redux/UserApi";
 import { Link } from "react-router-dom";
 import "./home.css";
+import LoadingPage from "../loadingPage";
 
 // 1. استخراج الأيقونات خارج المكون لمنع إعادة التعريف في كل Render
 const SKILL_CONFIG = {
@@ -36,10 +37,7 @@ const Home = () => {
 
   if (isLoading) {
     return (
-      <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-deep-blue text-accent">
-        <div className="spinner-grow" role="status"></div>
-        <span className="mt-3 fw-bold">Loading {user?.name || "Samsem"}'s Universe...</span>
-      </div>
+      <LoadingPage/>
     );
   }
 
